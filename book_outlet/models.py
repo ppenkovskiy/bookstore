@@ -4,6 +4,14 @@ from django.urls import reverse
 from django.utils.text import slugify  # slugify transforms string to a slug
 
 
+class Country(models.Model):
+    name = models.CharField(max_length=20)
+    code = models.CharField(max_length=2)
+
+    class Meta:
+        verbose_name_plural = 'Countries'
+
+
 class Address(models.Model):
     street = models.CharField(max_length=80)
     postal_code = models.CharField(max_length=5)
@@ -13,7 +21,7 @@ class Address(models.Model):
         return f"{self.street}, {self.postal_code}, {self.city}"
 
     class Meta:
-        verbose_name_plural = 'Address Entries'
+        verbose_name_plural = 'Addresses'
 
 
 class Author(models.Model):
@@ -21,11 +29,8 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
     address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True)
 
-    def full_name(self):
-        return f"{self.first_name} {self.last_name}"
-
     def __str__(self):
-        return self.full_name()
+        return f"{self.first_name} {self.last_name}"
 
 
 class Book(models.Model):
@@ -34,6 +39,7 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, related_name='books')
     is_bestselling = models.BooleanField(default=False)
     slug = models.SlugField(default="", blank=True, null=False, db_index=True)
+    published_countries = models.ManyToManyField(Country, null=False, related_name='books')
 
     def get_absolute_url(self):
         return reverse("book-detail", args=[self.slug])
@@ -43,4 +49,4 @@ class Book(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Title: {self.title}, author: {self.author}, rating:{self.rating}."
+        return f"{self.title} ({self.author}, {self.rating})"
