@@ -1,8 +1,12 @@
-Installing "Bookstore" project on Linux.
+Project "Bookstore" preview:
 
-git clone git@github.com:ppenkovskiy/bookstore.git
+https://drive.google.com/file/d/1VAqzWRWEZHfyaYX9ugoldgvn80lv0pf3/view?usp=sharing
 
-cd bookstore
+Installing "Bookstore" project on Linux:
+
+git clone git@github.com:ppenkovskiy/bookstore_app.git
+
+cd bookstore_app
 
 sudo apt install python3.10-venv
 
