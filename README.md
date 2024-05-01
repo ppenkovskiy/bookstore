@@ -1,1 +1,2 @@
-Bookstore project.
+My "Bookstore" project.
+
